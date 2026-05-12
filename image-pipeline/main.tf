@@ -47,6 +47,28 @@ module "iam" {
   project     = var.project
   environment = var.environment
 
+  upload_bucket_arn    = module.s3.upload_bucket_arn
+  processed_bucket_arn = module.s3.processed_bucket_arn
+  dynamodb_table_arn   = module.dynamodb.table_arn
+
+
   # We pass placeholder ARNs for now — these will be replaced
   # with real ARNs as we build the S3, DynamoDB, SQS, SNS modules
+}
+
+# ── S3 module ─────────────────────────────────────────────────────────────────
+module "s3" {
+  source = "./modules/s3"
+
+  project     = var.project
+  environment = var.environment
+  suffix      = random_id.suffix.hex
+}
+
+# ── DynamoDB module ───────────────────────────────────────────────────────────
+module "dynamodb" {
+  source = "./modules/dynamodb"
+
+  project     = var.project
+  environment = var.environment
 }
