@@ -1,0 +1,5 @@
+environment        = "dev"
+aws_region         = "ap-southeast-1"
+project            = "img-pipeline"
+owner              = "yasindu"
+notification_email = "[EMAIL_ADDRESS]"

@@ -1,0 +1,36 @@
+resource "aws_iam_role" "watermark" {
+  name               = "${local.name_prefix}-watermark-role"
+  assume_role_policy = data.aws_iam_policy_document.lambda_assume_role.json
+
+  description = "Role for the watermark Lambda"
+}
+
+data "aws_iam_policy_document" "watermark" {
+  statement {
+    sid    = "CloudWatchLogs"
+    effect = "Allow"
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+    ]
+    resources = ["arn:aws:logs:*:*:log-group:/aws/lambda/${local.name_prefix}-watermark:*"]
+  }
+
+  # ONLY processed bucket — cannot touch upload bucket
+  statement {
+    sid    = "S3ProcessedReadWrite"
+    effect = "Allow"
+    actions = [
+      "s3:GetObject",
+      "s3:PutObject",
+    ]
+    resources = ["${var.processed_bucket_arn}/processed/*"]
+  }
+}
+
+resource "aws_iam_role_policy" "watermark" {
+  name   = "${local.name_prefix}-watermark-policy"
+  role   = aws_iam_role.watermark.id
+  policy = data.aws_iam_policy_document.watermark.json
+}
