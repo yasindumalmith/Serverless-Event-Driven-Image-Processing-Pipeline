@@ -14,7 +14,7 @@ terraform {
 
   # Remote state — values from bootstrap step
   backend "s3" {
-    bucket         = "img-pipeline-tfstate-2fa0e315" # ← paste from bootstrap output
+    bucket         = "img-pipeline-tfstate-4eb076a2" # ← paste from bootstrap output
     key            = "image-pipeline/terraform.tfstate"
     region         = "us-east-1"
     dynamodb_table = "terraform-state-lock"
@@ -71,4 +71,15 @@ module "dynamodb" {
 
   project     = var.project
   environment = var.environment
+}
+
+# ── Cognito module ────────────────────────────────────────────────────────────
+module "cognito" {
+  source = "./modules/cognito"
+
+  project     = var.project
+  environment = var.environment
+
+  callback_urls = ["http://localhost:3000/callback"]
+  logout_urls   = ["http://localhost:3000/logout"]
 }

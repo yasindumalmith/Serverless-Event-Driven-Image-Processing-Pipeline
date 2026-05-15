@@ -15,7 +15,7 @@ provider "aws" {
 # ── S3 bucket for storing Terraform state files ───────────────────────────────
 resource "aws_s3_bucket" "tfstate" {
   bucket = "img-pipeline-tfstate-${random_id.suffix.hex}"
-  
+
   # Prevent accidental deletion of state bucket
   lifecycle {
     prevent_destroy = true
