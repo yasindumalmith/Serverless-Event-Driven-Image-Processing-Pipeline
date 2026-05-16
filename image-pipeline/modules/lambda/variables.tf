@@ -53,3 +53,29 @@ variable "watermark_queue_url" {
 variable "rekognition_queue_url" {
   type = string
 }
+
+
+
+variable "resize_role_arn" {
+  type = string
+}
+
+variable "watermark_role_arn" {
+  type = string
+}
+
+variable "rekognition_role_arn" {
+  type = string
+}
+
+variable "resize_queue_arn" {
+  type = string
+}
+
+variable "watermark_queue_arn" {
+  type = string
+}
+
+variable "rekognition_queue_arn" {
+  type = string
+}
