@@ -11,11 +11,6 @@
 *.tfstate.*
 *.tfstate.backup
 
-# Bootstrap local state (created when running terraform apply in bootstrap/)
-bootstrap/.terraform/
-bootstrap/terraform.tfstate
-bootstrap/terraform.tfstate.backup
-
 # Terraform plan output files
 *.tfplan
 *.plan
