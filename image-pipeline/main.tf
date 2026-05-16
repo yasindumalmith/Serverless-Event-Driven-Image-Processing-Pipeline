@@ -100,13 +100,20 @@ module "lambda" {
   processed_bucket_name = module.s3.processed_bucket_name
   dynamodb_table_name   = module.dynamodb.table_name
 
-  presign_role_arn = module.iam.presign_role_arn
-  status_role_arn  = module.iam.status_role_arn
-  trigger_role_arn = module.iam.trigger_role_arn
+  presign_role_arn     = module.iam.presign_role_arn
+  status_role_arn      = module.iam.status_role_arn
+  trigger_role_arn     = module.iam.trigger_role_arn
+  resize_role_arn      = module.iam.resize_role_arn
+  watermark_role_arn   = module.iam.watermark_role_arn
+  rekognition_role_arn = module.iam.rekognition_role_arn
 
   resize_queue_url      = module.sqs.resize_queue_url
   watermark_queue_url   = module.sqs.watermark_queue_url
   rekognition_queue_url = module.sqs.rekognition_queue_url
+
+  resize_queue_arn      = module.sqs.resize_queue_arn
+  watermark_queue_arn   = module.sqs.watermark_queue_arn
+  rekognition_queue_arn = module.sqs.rekognition_queue_arn
 }
 
 # ── API Gateway module ────────────────────────────────────────────────────────
