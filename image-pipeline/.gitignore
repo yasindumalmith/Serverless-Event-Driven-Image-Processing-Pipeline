@@ -67,6 +67,15 @@ dist/
 build/
 
 # ==============================================================================
+# LAMBDA LAYERS BUILD ARTIFACTS
+# ==============================================================================
+
+# Sharp layer — built by layers/sharp-layer/build-layer.sh using Docker
+# nodejs/ contains the compiled Linux x64 binaries (not cross-platform)
+layers/*/nodejs/
+layers/*/*.zip
+
+# ==============================================================================
 # PYTHON (if Lambda functions are Python)
 # ==============================================================================
 
