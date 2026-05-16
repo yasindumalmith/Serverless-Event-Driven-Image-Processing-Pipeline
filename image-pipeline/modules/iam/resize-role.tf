@@ -50,6 +50,13 @@ data "aws_iam_policy_document" "resize" {
   }
 
   statement {
+    sid       = "DynamoDBUpdateStatus"
+    effect    = "Allow"
+    actions   = ["dynamodb:UpdateItem"]
+    resources = [var.dynamodb_table_arn]
+  }
+
+  statement {
     sid       = "XRayTracing"
     effect    = "Allow"
     actions   = ["xray:PutTraceSegments", "xray:PutTelemetryRecords"]
