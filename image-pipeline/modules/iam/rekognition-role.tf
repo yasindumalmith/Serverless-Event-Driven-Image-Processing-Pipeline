@@ -59,12 +59,12 @@ data "aws_iam_policy_document" "rekognition" {
   }
 
   # Publish completion notification
-  statement {
+  /*statement {
     sid       = "SNSPublish"
     effect    = "Allow"
     actions   = ["sns:Publish"]
     resources = [var.sns_topic_arn]
-  }
+  }*/
 }
 
 resource "aws_iam_role_policy" "rekognition" {
