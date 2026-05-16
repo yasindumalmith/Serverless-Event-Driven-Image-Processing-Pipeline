@@ -83,3 +83,35 @@ module "cognito" {
   callback_urls = ["http://localhost:3000/callback"]
   logout_urls   = ["http://localhost:3000/logout"]
 }
+
+# ── Lambda module ─────────────────────────────────────────────────────────────
+module "lambda" {
+  source = "./modules/lambda"
+
+  project     = var.project
+  environment = var.environment
+
+  upload_bucket_name    = module.s3.upload_bucket_name
+  processed_bucket_name = module.s3.processed_bucket_name
+  dynamodb_table_name   = module.dynamodb.table_name
+
+  presign_role_arn = module.iam.presign_role_arn
+  status_role_arn  = module.iam.status_role_arn
+}
+
+# ── API Gateway module ────────────────────────────────────────────────────────
+module "api_gateway" {
+  source = "./modules/api-gateway"
+
+  project     = var.project
+  environment = var.environment
+  aws_region  = var.aws_region
+
+  cognito_user_pool_id  = module.cognito.user_pool_id
+  cognito_app_client_id = module.cognito.app_client_id
+
+  presign_function_name = module.lambda.presign_function_name
+  presign_invoke_arn    = module.lambda.presign_invoke_arn
+  status_function_name  = module.lambda.status_function_name
+  status_invoke_arn     = module.lambda.status_invoke_arn
+}

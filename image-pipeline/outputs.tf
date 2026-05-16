@@ -42,3 +42,8 @@ output "cognito_hosted_ui" {
   description = "Cognito hosted login URL"
   value       = module.cognito.hosted_ui_login_url
 }
+
+output "api_endpoint" {
+  description = "Base URL of the API"
+  value       = module.api_gateway.api_endpoint
+}
