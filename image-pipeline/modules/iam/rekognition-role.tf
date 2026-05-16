@@ -17,6 +17,17 @@ data "aws_iam_policy_document" "rekognition" {
     resources = ["arn:aws:logs:*:*:log-group:/aws/lambda/${local.name_prefix}-rekognition:*"]
   }
 
+  statement {
+    sid    = "SQSConsume"
+    effect = "Allow"
+    actions = [
+      "sqs:ReceiveMessage",
+      "sqs:DeleteMessage",
+      "sqs:GetQueueAttributes",
+      "sqs:ChangeMessageVisibility",
+    ]
+    resources = [var.rekognition_queue_arn]
+  }
   # Rekognition reads image directly from S3
   statement {
     sid       = "S3ReadForAI"
