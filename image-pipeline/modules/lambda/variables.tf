@@ -32,3 +32,24 @@ variable "status_role_arn" {
   type        = string
   description = "IAM role ARN for the status Lambda"
 }
+
+
+variable "trigger_role_arn" {
+  type = string
+}
+
+variable "upload_bucket_arn" {
+  type = string
+}
+
+variable "resize_queue_url" {
+  type = string
+}
+
+variable "watermark_queue_url" {
+  type = string
+}
+
+variable "rekognition_queue_url" {
+  type = string
+}

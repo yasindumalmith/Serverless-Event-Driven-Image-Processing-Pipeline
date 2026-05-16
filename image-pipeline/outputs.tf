@@ -47,3 +47,14 @@ output "api_endpoint" {
   description = "Base URL of the API"
   value       = module.api_gateway.api_endpoint
 }
+
+
+output "sqs_queue_urls" {
+  description = "URLs of the processing queues"
+  value       = module.sqs.queue_urls
+}
+
+output "sqs_dlq_urls" {
+  description = "URLs of the dead letter queues"
+  value       = module.sqs.dlq_urls
+}

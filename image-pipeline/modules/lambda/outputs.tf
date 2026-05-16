@@ -13,3 +13,12 @@ output "status_function_name" {
 output "status_invoke_arn" {
   value = aws_lambda_function.status.invoke_arn
 }
+
+
+output "trigger_function_name" {
+  value = aws_lambda_function.trigger.function_name
+}
+
+output "trigger_function_arn" {
+  value = aws_lambda_function.trigger.arn
+}

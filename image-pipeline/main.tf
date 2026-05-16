@@ -54,6 +54,10 @@ module "iam" {
 
   # We pass placeholder ARNs for now — these will be replaced
   # with real ARNs as we build the S3, DynamoDB, SQS, SNS modules
+
+  resize_queue_arn      = module.sqs.resize_queue_arn
+  watermark_queue_arn   = module.sqs.watermark_queue_arn
+  rekognition_queue_arn = module.sqs.rekognition_queue_arn
 }
 
 # ── S3 module ─────────────────────────────────────────────────────────────────
@@ -92,11 +96,17 @@ module "lambda" {
   environment = var.environment
 
   upload_bucket_name    = module.s3.upload_bucket_name
+  upload_bucket_arn     = module.s3.upload_bucket_arn
   processed_bucket_name = module.s3.processed_bucket_name
   dynamodb_table_name   = module.dynamodb.table_name
 
   presign_role_arn = module.iam.presign_role_arn
   status_role_arn  = module.iam.status_role_arn
+  trigger_role_arn = module.iam.trigger_role_arn
+
+  resize_queue_url      = module.sqs.resize_queue_url
+  watermark_queue_url   = module.sqs.watermark_queue_url
+  rekognition_queue_url = module.sqs.rekognition_queue_url
 }
 
 # ── API Gateway module ────────────────────────────────────────────────────────
@@ -115,3 +125,14 @@ module "api_gateway" {
   status_function_name  = module.lambda.status_function_name
   status_invoke_arn     = module.lambda.status_invoke_arn
 }
+
+# ── SQS module ────────────────────────────────────────────────────────────────
+module "sqs" {
+  source = "./modules/sqs"
+
+  project     = var.project
+  environment = var.environment
+}
+
+
+
