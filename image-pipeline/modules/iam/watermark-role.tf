@@ -17,6 +17,18 @@ data "aws_iam_policy_document" "watermark" {
     resources = ["arn:aws:logs:*:*:log-group:/aws/lambda/${local.name_prefix}-watermark:*"]
   }
 
+  statement {
+    sid    = "SQSConsume"
+    effect = "Allow"
+    actions = [
+      "sqs:ReceiveMessage",
+      "sqs:DeleteMessage",
+      "sqs:GetQueueAttributes",
+      "sqs:ChangeMessageVisibility",
+    ]
+    resources = [var.watermark_queue_arn]
+  }
+
   # ONLY processed bucket — cannot touch upload bucket
   statement {
     sid    = "S3ProcessedReadWrite"
