@@ -27,6 +27,20 @@ data "aws_iam_policy_document" "watermark" {
     ]
     resources = ["${var.processed_bucket_arn}/processed/*"]
   }
+
+  statement {
+    sid       = "S3ReadOriginalForWatermark"
+    effect    = "Allow"
+    actions   = ["s3:GetObject"]
+    resources = ["${var.upload_bucket_arn}/uploads/*"]
+  }
+
+  statement {
+    sid       = "DynamoDBUpdateStatus"
+    effect    = "Allow"
+    actions   = ["dynamodb:UpdateItem"]
+    resources = [var.dynamodb_table_arn]
+  }
 }
 
 resource "aws_iam_role_policy" "watermark" {
