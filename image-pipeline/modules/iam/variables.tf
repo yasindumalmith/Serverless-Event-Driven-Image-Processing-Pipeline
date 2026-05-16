@@ -44,3 +44,19 @@ variable "sns_topic_arn" {
   description = "ARN of the notification SNS topic"
   default     = "arn:aws:sns:us-east-1:000000000000:placeholder"
 }
+
+
+variable "resize_queue_arn" {
+  type    = string
+  default = "arn:aws:sqs:us-east-1:000000000000:placeholder"
+}
+
+variable "watermark_queue_arn" {
+  type    = string
+  default = "arn:aws:sqs:us-east-1:000000000000:placeholder"
+}
+
+variable "rekognition_queue_arn" {
+  type    = string
+  default = "arn:aws:sqs:us-east-1:000000000000:placeholder"
+}

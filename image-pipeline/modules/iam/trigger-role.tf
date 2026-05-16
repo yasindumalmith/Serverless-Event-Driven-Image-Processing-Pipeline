@@ -30,13 +30,17 @@ data "aws_iam_policy_document" "trigger" {
 
   # SQS: send job to processing queue
   statement {
-    sid    = "SQSSendMessage"
+    sid    = "SQSSendToAllQueues"
     effect = "Allow"
     actions = [
       "sqs:SendMessage",
       "sqs:GetQueueAttributes",
     ]
-    resources = [var.sqs_queue_arn]
+    resources = [
+      var.resize_queue_arn,
+      var.watermark_queue_arn,
+      var.rekognition_queue_arn,
+    ]
   }
 
   # DynamoDB: update status to "processing"
