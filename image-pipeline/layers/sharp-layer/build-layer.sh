@@ -7,22 +7,21 @@ echo "Building Sharp Lambda layer for Linux x64..."
 rm -rf nodejs
 rm -f sharp-layer.zip
 
-# Create the layer structure
-# Lambda layers for Node.js must put libraries in nodejs/node_modules/
-mkdir -p nodejs
+# Create the correct layer folder structure
+mkdir -p nodejs/node_modules
 
-# Use Docker to install sharp for the Lambda runtime
+# Use amazonlinux:2023 which matches the Lambda execution environment
 docker run --rm \
   --platform=linux/amd64 \
-  -v "$PWD/nodejs":/var/task \
-  public.ecr.aws/lambda/nodejs:20 \
-  /bin/bash -c "
-    cd /var/task && \
-    npm init -y && \
-    npm install --arch=x64 --platform=linux --libc=glibc sharp
+  -v "$PWD/nodejs":/nodejs \
+  amazonlinux:2023 \
+  bash -c "
+    dnf install -y nodejs npm --quiet && \
+    cd /nodejs && \
+    npm install --arch=x64 --platform=linux --libc=glibc sharp@0.33.4
   "
 
-# Zip it up
-zip -r sharp-layer.zip nodejs > /dev/null
+# Zip the layer
+zip -r sharp-layer.zip nodejs
 
-echo "Built sharp-layer.zip ($(du -h sharp-layer.zip | cut -f1))"
+echo "Done. Layer size: $(du -h sharp-layer.zip | cut -f1)"
