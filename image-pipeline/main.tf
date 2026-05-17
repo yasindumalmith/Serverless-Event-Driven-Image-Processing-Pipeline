@@ -152,3 +152,17 @@ module "waf" {
   project     = var.project
   environment = var.environment
 }
+
+# ── CloudFront module ─────────────────────────────────────────────────────────
+module "cloudfront" {
+  source = "./modules/cloudfront"
+
+  project     = var.project
+  environment = var.environment
+
+  processed_bucket_id     = module.s3.processed_bucket_id
+  processed_bucket_arn    = module.s3.processed_bucket_arn
+  processed_bucket_domain = module.s3.processed_bucket_domain
+
+  waf_web_acl_arn = module.waf.web_acl_arn
+}
