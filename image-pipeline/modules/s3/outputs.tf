@@ -27,3 +27,7 @@ output "processed_bucket_domain" {
   description = "Regional domain of the processed bucket (CloudFront origin)"
   value       = aws_s3_bucket.processed.bucket_regional_domain_name
 }
+
+output "processed_bucket_id" {
+  value = aws_s3_bucket.processed.id
+}

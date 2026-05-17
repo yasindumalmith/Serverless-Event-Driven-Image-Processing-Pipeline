@@ -58,3 +58,14 @@ output "sqs_dlq_urls" {
   description = "URLs of the dead letter queues"
   value       = module.sqs.dlq_urls
 }
+
+
+output "cloudfront_domain" {
+  description = "CloudFront domain for accessing processed images"
+  value       = module.cloudfront.domain_name
+}
+
+output "cloudfront_url_example" {
+  description = "Example URL format for accessing a processed image"
+  value       = "https://${module.cloudfront.domain_name}/processed/{userId}/{imageId}/medium.jpg"
+}
