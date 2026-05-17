@@ -60,3 +60,24 @@ variable "rekognition_queue_arn" {
   type    = string
   default = "arn:aws:sqs:us-east-1:000000000000:placeholder"
 }
+
+
+variable "resize_dlq_arn" {
+  type    = string
+  default = "arn:aws:sqs:ap-southeast-1:000000000000:placeholder"
+}
+
+variable "watermark_dlq_arn" {
+  type    = string
+  default = "arn:aws:sqs:ap-southeast-1:000000000000:placeholder"
+}
+
+variable "rekognition_dlq_arn" {
+  type    = string
+  default = "arn:aws:sqs:ap-southeast-1:000000000000:placeholder"
+}
+
+variable "ops_alerts_topic_arn" {
+  type    = string
+  default = "arn:aws:sns:ap-southeast-1:000000000000:placeholder"
+}

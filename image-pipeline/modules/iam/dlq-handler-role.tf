@@ -26,7 +26,10 @@ data "aws_iam_policy_document" "dlq_handler" {
       "sqs:DeleteMessage",
       "sqs:GetQueueAttributes",
     ]
-    resources = [var.sqs_dlq_arn]
+    resources = [
+      var.resize_dlq_arn,
+      var.watermark_dlq_arn,
+    var.rekognition_dlq_arn, ]
   }
 
   # Mark failed in DynamoDB
