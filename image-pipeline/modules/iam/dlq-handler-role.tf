@@ -38,12 +38,12 @@ data "aws_iam_policy_document" "dlq_handler" {
   }
 
   # Notify user of failure
-  statement {
+  /*statement {
     sid       = "SNSPublishFailure"
     effect    = "Allow"
     actions   = ["sns:Publish"]
     resources = [var.sns_topic_arn]
-  }
+  }*/
 }
 
 resource "aws_iam_role_policy" "dlq_handler" {

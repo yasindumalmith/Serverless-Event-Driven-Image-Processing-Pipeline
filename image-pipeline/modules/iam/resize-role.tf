@@ -27,7 +27,7 @@ data "aws_iam_policy_document" "resize" {
       "sqs:GetQueueAttributes",
       "sqs:ChangeMessageVisibility",
     ]
-    resources = [var.sqs_queue_arn]
+    resources = [var.resize_queue_arn]
   }
 
   # S3 READ: only from upload bucket

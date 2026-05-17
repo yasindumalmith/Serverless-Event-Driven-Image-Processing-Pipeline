@@ -52,6 +52,8 @@ module "iam" {
   dynamodb_table_arn   = module.dynamodb.table_arn
 
 
+
+
   # We pass placeholder ARNs for now — these will be replaced
   # with real ARNs as we build the S3, DynamoDB, SQS, SNS modules
 
