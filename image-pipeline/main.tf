@@ -145,3 +145,10 @@ module "sqs" {
 
 
 
+# ── WAF module (must be created in us-east-1) ─────────────────────────────────
+module "waf" {
+  source = "./modules/waf"
+
+  project     = var.project
+  environment = var.environment
+}
