@@ -79,3 +79,24 @@ variable "watermark_queue_arn" {
 variable "rekognition_queue_arn" {
   type = string
 }
+
+
+variable "dlq_handler_role_arn" {
+  type = string
+}
+
+variable "resize_dlq_arn" {
+  type = string
+}
+
+variable "watermark_dlq_arn" {
+  type = string
+}
+
+variable "rekognition_dlq_arn" {
+  type = string
+}
+
+variable "ops_alerts_topic_arn" {
+  type = string
+}
