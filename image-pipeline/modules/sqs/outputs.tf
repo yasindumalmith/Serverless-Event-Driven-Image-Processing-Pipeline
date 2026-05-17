@@ -33,3 +33,7 @@ output "watermark_queue_url" { value = aws_sqs_queue.main["watermark"].url }
 output "watermark_queue_arn" { value = aws_sqs_queue.main["watermark"].arn }
 output "rekognition_queue_url" { value = aws_sqs_queue.main["rekognition"].url }
 output "rekognition_queue_arn" { value = aws_sqs_queue.main["rekognition"].arn }
+
+output "resize_dlq_arn" { value = aws_sqs_queue.dlq["resize"].arn }
+output "watermark_dlq_arn" { value = aws_sqs_queue.dlq["watermark"].arn }
+output "rekognition_dlq_arn" { value = aws_sqs_queue.dlq["rekognition"].arn }

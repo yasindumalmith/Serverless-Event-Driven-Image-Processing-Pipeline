@@ -48,9 +48,12 @@ data "aws_iam_policy_document" "watermark" {
   }
 
   statement {
-    sid       = "DynamoDBUpdateStatus"
-    effect    = "Allow"
-    actions   = ["dynamodb:UpdateItem"]
+    sid    = "DynamoDBUpdateStatus"
+    effect = "Allow"
+    actions = [
+      "dynamodb:UpdateItem",
+      "dynamodb:GetItem"
+    ]
     resources = [var.dynamodb_table_arn]
   }
 }
