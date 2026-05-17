@@ -60,6 +60,12 @@ module "iam" {
   resize_queue_arn      = module.sqs.resize_queue_arn
   watermark_queue_arn   = module.sqs.watermark_queue_arn
   rekognition_queue_arn = module.sqs.rekognition_queue_arn
+
+  resize_dlq_arn      = module.sqs.resize_dlq_arn
+  watermark_dlq_arn   = module.sqs.watermark_dlq_arn
+  rekognition_dlq_arn = module.sqs.rekognition_dlq_arn
+
+  ops_alerts_topic_arn = module.sns.ops_alerts_arn
 }
 
 # ── S3 module ─────────────────────────────────────────────────────────────────
@@ -116,6 +122,13 @@ module "lambda" {
   resize_queue_arn      = module.sqs.resize_queue_arn
   watermark_queue_arn   = module.sqs.watermark_queue_arn
   rekognition_queue_arn = module.sqs.rekognition_queue_arn
+
+  dlq_handler_role_arn = module.iam.dlq_handler_role_arn
+  resize_dlq_arn       = module.sqs.resize_dlq_arn
+  watermark_dlq_arn    = module.sqs.watermark_dlq_arn
+  rekognition_dlq_arn  = module.sqs.rekognition_dlq_arn
+
+  ops_alerts_topic_arn = module.sns.ops_alerts_arn
 }
 
 # ── API Gateway module ────────────────────────────────────────────────────────
@@ -165,4 +178,49 @@ module "cloudfront" {
   processed_bucket_domain = module.s3.processed_bucket_domain
 
   waf_web_acl_arn = module.waf.web_acl_arn
+}
+
+
+# ── SNS module ────────────────────────────────────────────────────────────────
+module "sns" {
+  source = "./modules/sns"
+
+  project            = var.project
+  environment        = var.environment
+  notification_email = var.notification_email
+}
+
+# ── Monitoring module ─────────────────────────────────────────────────────────
+module "monitoring" {
+  source = "./modules/monitoring"
+
+  project     = var.project
+  environment = var.environment
+  aws_region  = var.aws_region
+
+  ops_alerts_topic_arn = module.sns.ops_alerts_arn
+  dynamodb_table_name  = module.dynamodb.table_name
+  api_gateway_name     = module.api_gateway.api_name # ← you'll need to add this output
+
+  lambda_function_names = {
+    presign     = module.lambda.presign_function_name
+    status      = module.lambda.status_function_name
+    trigger     = module.lambda.trigger_function_name
+    resize      = module.lambda.resize_function_name
+    watermark   = module.lambda.watermark_function_name
+    rekognition = module.lambda.rekognition_function_name
+    dlq_handler = module.lambda.dlq_handler_function_name
+  }
+
+  sqs_queue_names = {
+    resize      = "${var.project}-${var.environment}-resize-queue"
+    watermark   = "${var.project}-${var.environment}-watermark-queue"
+    rekognition = "${var.project}-${var.environment}-rekognition-queue"
+  }
+
+  sqs_dlq_names = {
+    resize      = "${var.project}-${var.environment}-resize-dlq"
+    watermark   = "${var.project}-${var.environment}-watermark-dlq"
+    rekognition = "${var.project}-${var.environment}-rekognition-dlq"
+  }
 }
